@@ -1,0 +1,25 @@
+# Core app
+streamlit
+
+# Google Gemini
+google-generativeai
+langchain-google-genai
+
+# LangChain stack
+langchain
+langchain-core
+langchain-community
+
+# Vector store
+faiss-cpu
+
+# Env config
+python-dotenv
+
+# YouTube transcript + web fetch
+youtube-transcript-api
+requests
+beautifulsoup4
+
+# JSON loader helper used by LangChain JSONLoader with jq_schema
+jq
