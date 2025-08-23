@@ -107,6 +107,9 @@ When the app opens:
 - Invalid API key
 	- Ensure the key is copied correctly from AI Studio; try setting `$env:GOOGLE_API_KEY` and restart the app.
 
+- IPBlocked YouTubeTranscriptApi
+	- Too many requests can get IPBlocked by YouTube. Wait for some days for it to restore or use [proxies](https://github.com/jdepoix/youtube-transcript-api?tab=readme-ov-file#working-around-ip-bans-requestblocked-or-ipblocked-exception).
+
 - No transcript found
 	- Some videos disable transcripts or lack EN captions. Try a different video or language.
 
