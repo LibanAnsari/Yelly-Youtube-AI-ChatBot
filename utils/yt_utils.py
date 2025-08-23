@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import json
 import os
 
-def save_video_data(video_id, video_name, captions, filename="data/transcripts.json"):
+def save_video_data(video_id, video_name, captions, filename="/tmp/data/transcripts.json"):
     
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
