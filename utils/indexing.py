@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def text_splitter(filename="data/transcripts.json"):
+def text_splitter(filename="/tmp/data/transcripts.json"):
     try:
         loader = JSONLoader(
             file_path=filename,
@@ -25,7 +25,7 @@ def text_splitter(filename="data/transcripts.json"):
         print("Error: ", e)
 
 
-def create_vector_store(filename="data/transcripts.json"):
+def create_vector_store(filename="/tmp/data/transcripts.json"):
     try:
         chunks = text_splitter(filename)
         if chunks:
@@ -37,7 +37,7 @@ def create_vector_store(filename="data/transcripts.json"):
             # print(vector_store.index_to_docstore_id)
             # print(vector_store.get_by_ids([vector_store.index_to_docstore_id[0]]))
             
-            vector_store.save_local("data/faiss_index")
+            vector_store.save_local("/tmp/data/faiss_index")
             print("Vector Store saved Successfully!")
         
     except Exception as e:

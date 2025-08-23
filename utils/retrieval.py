@@ -7,7 +7,7 @@ load_dotenv()
 
 def load_vector_store():
     vector_store = FAISS.load_local(
-        "data/faiss_index", GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001"), allow_dangerous_deserialization=True
+        "/tmp/data/faiss_index", GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001"), allow_dangerous_deserialization=True
     )
     
     return vector_store
