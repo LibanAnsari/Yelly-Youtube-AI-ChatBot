@@ -116,6 +116,8 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 🔒 Privacy Note:")
     st.markdown("Your API key is only stored temporarily in this session and is not saved or transmitted anywhere.")
+    st.markdown("---")
+    st.markdown("*Made with 🎀 | By [Liban Ansari](https://github.com/LibanAnsari)*")
 
 if not st.session_state.api_valid:
     st.error("🔑 Please provide your Google API Key in the sidebar to continue.")
