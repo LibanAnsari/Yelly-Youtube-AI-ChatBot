@@ -151,7 +151,7 @@ if yt_link:
 
         if "chain" not in st.session_state:
             st.session_state.chain = None
-            st.error(f"❌ Failed to Initialize chain: {e}")
+            st.error(f"❌ Failed to Initialize chain")
 
         # ---- Chatbot UI ----
         if "chat_history" not in st.session_state:
