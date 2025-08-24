@@ -25,7 +25,7 @@ def get_mmr_retreiver(vector_store):
     
     mmr_retreiver = vector_store.as_retriever(
         search_type = 'mmr',
-        search_kwargs={"k": 4, "lambda_mult": 0.8} # "lambda_mult": 1 will behave as similarity search           
+        search_kwargs={"k": 6, "lambda_mult": 0.8} # "lambda_mult": 1 will behave as similarity search           
     )
     
     return mmr_retreiver

@@ -1,0 +1,1 @@
+### This is a temporary folder to store the videos transcripts, on runtime the files are saved in "/tmp/data", if you wish to save the transcripts set the filename in the util files to this directory.

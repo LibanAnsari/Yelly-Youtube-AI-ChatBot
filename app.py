@@ -131,6 +131,7 @@ if yt_link:
         # ---- Safe Transcript Fetch (only once per video_id) ----
         if "video_id" not in st.session_state or st.session_state.video_id != video_id:
             try:
+                print(video_id, video_title)
                 st.session_state.chat_history = []
                 st.session_state.video_id = video_id
                 st.session_state.video_title = video_title
@@ -140,10 +141,12 @@ if yt_link:
                     if captions:
                         save_video_data(video_id, video_title, captions)
                         create_vector_store()
+                        
                         st.session_state.vectorstore = load_vector_store()
                         print("Vector Store loaded Successfully!")
+                        
                         st.session_state.chain = get_chain(st.session_state.vectorstore)
-                        print('Chain created Successfully!')
+                        print('Chain created Successfully!\n')
                     else:
                         st.error("⚠️ No transcript available for this video.")
             except Exception as e:

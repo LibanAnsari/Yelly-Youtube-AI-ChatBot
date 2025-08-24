@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import os
+import time
 
 def save_video_data(video_id, video_name, captions, filename="/tmp/data/transcripts.json"):
     
@@ -29,12 +30,21 @@ def generate_transcript(video_id, lang='en'):
         #         proxy_password = "<your-proxy-password>",
         #     )
         # )
-        yt_api = YouTubeTranscriptApi()
-        transcript_list = yt_api.fetch(video_id, languages=[lang])
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                yt_api = YouTubeTranscriptApi()
+                transcript_list = yt_api.fetch(video_id, languages=[lang])
 
-        captions = ' '.join(script.text for script in transcript_list)
-        # print(captions[:200])
-        return captions
+                captions = ' '.join(script.text for script in transcript_list)
+                # print(captions[:200])
+                return captions
+            except Exception as e:
+                print(f"Attempt {attempt + 1} failed: {e}")
+                if attempt < max_retries - 1:
+                    time.sleep(2)  # Wait before retry
+                else:
+                    raise e
             
     except NoTranscriptFound:
         print('No captions available for this video.')

@@ -3,6 +3,7 @@ from langchain_community.vectorstores import FAISS
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
@@ -11,13 +12,18 @@ def text_splitter(filename="/tmp/data/transcripts.json"):
         loader = JSONLoader(
             file_path=filename,
             jq_schema=".[]",
+            text_content=False
         )
         text = loader.load()
 
-        splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000,
+            chunk_overlap=200
+        )
+        
         chunks = splitter.create_documents([text[2].page_content]) # This will create a list of Documents (splitted text)
 
-        print(len(chunks),"Docs created")
+        print(len(chunks), "Docs created")
         print("Splitted Text Successfully!")
         
         return chunks
@@ -33,12 +39,11 @@ def create_vector_store(filename="/tmp/data/transcripts.json"):
 
             vector_store = FAISS.from_documents(chunks, embeddings)
             print("Vector Store created Successfully!")
-            
-            # print(vector_store.index_to_docstore_id)
-            # print(vector_store.get_by_ids([vector_store.index_to_docstore_id[0]]))
-            
+
+            os.makedirs("/tmp/data/faiss_index", exist_ok=True)  # ✅ ensure directory exists
             vector_store.save_local("/tmp/data/faiss_index")
             print("Vector Store saved Successfully!")
         
+            return vector_store
     except Exception as e:
         print("Error: ", e)
