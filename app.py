@@ -140,22 +140,18 @@ if yt_link:
                     if captions:
                         save_video_data(video_id, video_title, captions)
                         create_vector_store()
+                        st.session_state.vectorstore = load_vector_store()
+                        print("Vector Store loaded Successfully!")
+                        st.session_state.chain = get_chain(st.session_state.vectorstore)
+                        print('Chain created Successfully!')
                     else:
                         st.error("⚠️ No transcript available for this video.")
             except Exception as e:
                 st.error(f"❌ Transcript fetch failed: {e}")
 
-        # Cache heavy operations
-        if "vectorstore" not in st.session_state:
-            st.session_state.vectorstore = load_vector_store()
-            print("Vector Store loaded Successfully!")
-
         if "chain" not in st.session_state:
-            try:
-                st.session_state.chain = get_chain(st.session_state.vectorstore)
-            except Exception as e:
-                st.session_state.chain = None
-                st.error(f"❌ Failed to Initialize chain: {e}")
+            st.session_state.chain = None
+            st.error(f"❌ Failed to Initialize chain: {e}")
 
         # ---- Chatbot UI ----
         if "chat_history" not in st.session_state:
@@ -189,7 +185,10 @@ if yt_link:
                         })
                         if not response:
                             response = "⚠️ No chain available. Please refresh and try again."
-
+                else:
+                    print('No chain detected!')
+                    response = "⚠️ No chain available. Please refresh and try again."
+                    
                 st.session_state.chat_history.append(AIMessage(content=response))
 
                 with st.chat_message("ai"):
