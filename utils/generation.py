@@ -2,8 +2,8 @@ from langchain_core.runnables import RunnableParallel, RunnablePassthrough, Runn
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import StrOutputParser
 
-from utils.retrieval import get_mutiquery_retriever, get_mmr_retreiver
-from utils.augmentation import format_docs, prompt
+from .retrieval import get_mutiquery_retriever, get_mmr_retreiver
+from .augmentation import format_docs, prompt
 
 
 def get_chain(vector_store):

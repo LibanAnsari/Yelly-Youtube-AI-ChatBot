@@ -1,8 +1,15 @@
-import streamlit as st
 import os
+import sys
+import streamlit as st
 import google.generativeai as genai
 from langchain_core.messages import HumanMessage, AIMessage
-from utils.yt_utils import *
+
+# Ensure project root is on sys.path so we can import the sibling 'utils' package
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+from utils.yt_utils import get_video_info, generate_transcript, save_video_data
 from utils.indexing import create_vector_store
 from utils.retrieval import load_vector_store
 from utils.generation import get_chain
