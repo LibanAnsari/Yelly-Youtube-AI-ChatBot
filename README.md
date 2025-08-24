@@ -28,7 +28,8 @@ Chat with any YouTube video using its transcript. Paste a YouTube link, Yelly fe
 ## Project structure
 
 ```
-app.py                     # Streamlit app
+src/
+	app.py                   # Streamlit app
 utils/
 	augmentation.py          # Prompt + helpers for formatting docs/history
 	generation.py            # LLM chain wiring (Gemini, retriever, parser)
@@ -65,7 +66,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 # 3) Run the app
-streamlit run app.py
+streamlit run src/app.py
 ```
 
 When the app opens:
@@ -91,7 +92,7 @@ When the app opens:
 	- Or set env var before launching:
 		```powershell
 		$env:GOOGLE_API_KEY = "YOUR_KEY_HERE"
-		streamlit run app.py
+		streamlit run src/app.py
 		```
 - Model names
 	- Change LLM in `utils/generation.py` (default: `gemini-2.5-flash`).
