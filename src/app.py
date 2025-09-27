@@ -1,8 +1,24 @@
 import os
 import sys
+import asyncio
 import streamlit as st
 import google.generativeai as genai
 from langchain_core.messages import HumanMessage, AIMessage
+
+# --- Async event loop compatibility (Python 3.12+/3.13 & Streamlit thread) ---
+# Some dependencies (LangChain / google-generativeai) may still call the deprecated
+# asyncio.get_event_loop() expecting a loop to exist. In Python 3.12+ (esp. 3.13),
+# non-main threads (like Streamlit's ScriptRunner) do NOT get a default loop and a
+# RuntimeError: "There is no current event loop" is raised. We proactively create
+# and set one if missing to keep those libraries working.
+def _ensure_event_loop():
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
+_ensure_event_loop()
 
 # Ensure project root is on sys.path so we can import the sibling 'utils' package
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))

@@ -10,7 +10,7 @@ def get_chain(vector_store):
     
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
-        streaming=True,  # Enable streaming for faster responses
+        disable_streaming=True,
         temperature=0.7
     )
 
