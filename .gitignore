@@ -115,6 +115,8 @@ dmypy.json
 .DS_Store
 Thumbs.db
 
+.env
+
 # Runtime generated files (these should be in /tmp/ for Streamlit Cloud)
 data/transcripts.json
 data/faiss_index/

@@ -1,12 +1,14 @@
 from langchain_community.document_loaders import JSONLoader
 from langchain_community.vectorstores import FAISS
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_huggingface.embeddings import HuggingFaceEmbeddings
+from langsmith import traceable
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
+@traceable(name='text_splitter')
 def text_splitter(filename="/tmp/data/transcripts.json"):
     try:
         loader = JSONLoader(
@@ -30,12 +32,12 @@ def text_splitter(filename="/tmp/data/transcripts.json"):
     except Exception as e:
         print("Error: ", e)
 
-
+@traceable(name='create_vector_store')
 def create_vector_store(filename="/tmp/data/transcripts.json"):
     try:
         chunks = text_splitter(filename)
         if chunks:
-            embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
+            embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
 
             vector_store = FAISS.from_documents(chunks, embeddings)
             print("Vector Store created Successfully!")

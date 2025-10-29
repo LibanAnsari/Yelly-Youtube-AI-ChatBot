@@ -11,14 +11,14 @@ from langchain_core.messages import HumanMessage, AIMessage
 # non-main threads (like Streamlit's ScriptRunner) do NOT get a default loop and a
 # RuntimeError: "There is no current event loop" is raised. We proactively create
 # and set one if missing to keep those libraries working.
-def _ensure_event_loop():
-    try:
-        asyncio.get_running_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+# def _ensure_event_loop():
+#     try:
+#         asyncio.get_running_loop()
+#     except RuntimeError:
+#         loop = asyncio.new_event_loop()
+#         asyncio.set_event_loop(loop)
 
-_ensure_event_loop()
+# _ensure_event_loop()
 
 # Ensure project root is on sys.path so we can import the sibling 'utils' package
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
@@ -200,23 +200,25 @@ if yt_link:
 
         if query:
             try:
-                st.session_state.chat_history.append(HumanMessage(content=query))
-
-                with st.chat_message("user"):
-                    st.write(query)
 
                 if st.session_state.chain:
+                    
+                    with st.chat_message("user"):
+                        st.write(query)
+                    
                     with st.spinner("Thinking till the brains out..."):
                         response = st.session_state.chain.invoke({
-                            "chat_history": st.session_state.chat_history,
-                            "question": query
-                        })
+                                "chat_history": st.session_state.chat_history,
+                                "question": query,
+                            },
+                            config={"run_name": "FULL RUN"})
                         if not response:
                             response = "⚠️ No chain available. Please refresh and try again."
                 else:
                     print('No chain detected!')
                     response = "⚠️ No chain available. Please refresh and try again."
-                    
+                
+                st.session_state.chat_history.append(HumanMessage(content=query))
                 st.session_state.chat_history.append(AIMessage(content=response))
 
                 with st.chat_message("ai"):

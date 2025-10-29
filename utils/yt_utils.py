@@ -2,10 +2,12 @@ from youtube_transcript_api import YouTubeTranscriptApi, NoTranscriptFound
 from youtube_transcript_api.proxies import WebshareProxyConfig
 import requests
 from bs4 import BeautifulSoup
+from langsmith import traceable
 import json
 import os
 import time
 
+@traceable(name='save_video_data')
 def save_video_data(video_id, video_name, captions, filename="/tmp/data/transcripts.json"):
     
     os.makedirs(os.path.dirname(filename), exist_ok=True)
@@ -21,7 +23,7 @@ def save_video_data(video_id, video_name, captions, filename="/tmp/data/transcri
 
     print(f"Data saved to {filename}")
 
-
+@traceable(name='generate_transcript')
 def generate_transcript(video_id, lang='en'):
     try:
         # yt_api = YouTubeTranscriptApi(
@@ -52,7 +54,7 @@ def generate_transcript(video_id, lang='en'):
     except Exception as e:
         print(f"Error: {e}")
 
-
+@traceable(name='get_video_info')
 def get_video_info(url):
     video_id = None
     title = None

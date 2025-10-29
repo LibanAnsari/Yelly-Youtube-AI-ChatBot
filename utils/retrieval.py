@@ -1,17 +1,20 @@
 from langchain_community.vectorstores import FAISS
-from langchain.retrievers import MultiQueryRetriever
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_classic.retrievers.multi_query import MultiQueryRetriever
+from langchain_huggingface.embeddings import HuggingFaceEmbeddings
+from langsmith import traceable
 from dotenv import load_dotenv
 
 load_dotenv()
 
+@traceable(name='load_vector_store')
 def load_vector_store():
     vector_store = FAISS.load_local(
-        "/tmp/data/faiss_index", GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001"), allow_dangerous_deserialization=True
+        "/tmp/data/faiss_index", HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2"), allow_dangerous_deserialization=True
     )
     
     return vector_store
 
+@traceable(name='get_mutiquery_retriever')
 def get_mutiquery_retriever(vector_store, llm):
     
     mutiquery_retriever = MultiQueryRetriever.from_llm(
@@ -21,6 +24,7 @@ def get_mutiquery_retriever(vector_store, llm):
 
     return mutiquery_retriever
 
+@traceable(name='get_mmr_retriever')
 def get_mmr_retreiver(vector_store):
     
     mmr_retreiver = vector_store.as_retriever(

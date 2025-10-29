@@ -1,11 +1,13 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
+from langsmith import traceable
 
+@traceable(name='format_docs')
 def format_docs(retreived_docs):
     context_text = "\n\n".join(doc.page_content for doc in retreived_docs)
     return context_text
 
-
+@traceable(name='update_history')
 def update_history(chat_history, new_chat):
     
     if new_chat['role'] == 'user':

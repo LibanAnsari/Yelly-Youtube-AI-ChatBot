@@ -79,7 +79,7 @@ When the app opens:
 ## How it works — RAG (Retrieval-Augmented Generation)
 
 1. Transcript: `youtube-transcript-api` fetches the transcript; details saved to `data/transcripts.json`.
-2. Indexing: `JSONLoader` (+ `jq`) loads JSON; `RecursiveCharacterTextSplitter` chunks text; `GoogleGenerativeAIEmbeddings` embeds; FAISS saves to `data/faiss_index`.
+2. Indexing: `JSONLoader` (+ `jq`) loads JSON; `RecursiveCharacterTextSplitter` chunks text; `HuggingFaceEmbeddings` embeds; FAISS saves to `data/faiss_index`.
 3. Retrieval: MMR retriever selects diverse, relevant chunks.
 4. Generation: `ChatGoogleGenerativeAI` (model: `gemini-2.5-flash`) answers using a friendly prompt; responses stream to the UI.
 
@@ -96,7 +96,7 @@ When the app opens:
 		```
 - Model names
 	- Change LLM in `utils/generation.py` (default: `gemini-2.5-flash`).
-	- Change embedding model in `utils/indexing.py` and `utils/retrieval.py` (default: `models/gemini-embedding-001`).
+	- Change embedding model in `utils/indexing.py` and `utils/retrieval.py` (default: `models/gemini-embedding-004`).
 - Chunking and retrieval
 	- Tune chunk size/overlap in `utils/indexing.py`.
 	- Switch between MMR and MultiQuery in `utils/generation.py`.
