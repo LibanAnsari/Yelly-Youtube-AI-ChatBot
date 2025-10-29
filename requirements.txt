@@ -9,6 +9,7 @@ langchain-google-genai
 langchain
 langchain-core
 langchain-community
+langchain_classic
 
 # LangChain HF library for Embeddings
 langchain_huggingface
